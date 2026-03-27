@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ app_name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Serif+4:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div class="bg-grid"></div>
+
+    <div class="page-shell">
+      <section id="warmup-banner" class="warmup-banner hidden" aria-live="polite">
+        <div class="warmup-meta">
+          <strong id="warmup-title">Initializing data</strong>
+          <span id="warmup-subtitle">Preparing artifacts and search indexes...</span>
+        </div>
+        <div class="warmup-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="warmup-progress" class="warmup-progress"></div>
+        </div>
+      </section>
+
+      <header class="hero">
+        <div class="hero-topline">
+          <p class="eyebrow">Biomedical Discovery Workspace</p>
+          <span class="hero-tag">FastAPI + BM25 + NLP</span>
+        </div>
+        <h1>{{ app_name }}</h1>
+        <p class="hero-copy">
+          Precision literature retrieval and modality-focused browsing from prebuilt artifacts. Search papers, explore themes,
+          and inspect image-linked studies in one workspace.
+        </p>
+        <div class="hero-points">
+          <span>Hybrid ranking</span>
+          <span>Topic extraction</span>
+          <span>Category drill-down</span>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel panel-search">
+          <div class="panel-header">
+            <h2>Global Search</h2>
+            <p>Search across PMID, PMCID, title, abstract, and category fields. Use <code>+</code> to combine terms.</p>
+          </div>
+          <form id="search-form" class="search-bar">
+            <input id="search-input" name="q" type="text" placeholder="Type PMID + keyword + title term" />
+            <button type="submit">Search</button>
+          </form>
+          <div id="search-status" class="status"></div>
+          <div id="search-results" class="results-grid"></div>
+        </section>
+
+        <section class="panel panel-topics">
+          <div class="panel-header">
+            <h2>Topic Snapshot</h2>
+            <p>Keyword themes are computed from preprocessed article text and can be prebuilt into runtime artifacts.</p>
+          </div>
+          <div id="summary-metrics" class="metric-row"></div>
+          <div id="topic-chips" class="topic-chips"></div>
+          <div class="wordcloud-frame">
+            <img id="wordcloud-image" alt="Keyword theme poster" />
+          </div>
+        </section>
+
+        <section class="panel panel-categories">
+          <div class="panel-header">
+            <h2>Image Modalities</h2>
+            <p>Choose a biomedical modality to browse grouped article cards and associated image thumbnails.</p>
+          </div>
+          <div id="category-buttons" class="category-buttons"></div>
+          <form id="category-search-form" class="search-bar compact">
+            <input id="category-search-input" type="text" placeholder="Filter selected category" />
+            <button type="submit">Filter</button>
+          </form>
+          <div id="category-status" class="status"></div>
+          <div id="category-results" class="results-grid"></div>
+          <button id="load-more-button" class="load-more hidden" type="button">Load More</button>
+        </section>
+      </main>
+
+      <footer class="foot-note">
+        <span>Built for fast, reproducible biomedical exploration.</span>
+      </footer>
+    </div>
+
+    <script>
+      const pageConfig = {
+        categoryPageSize: {{ category_page_size }},
+        loadMorePageSize: {{ load_more_page_size }},
+      };
+    </script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

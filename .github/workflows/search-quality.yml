@@ -1,0 +1,44 @@
+name: Search Quality Regression Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  search-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      
+      - name: Install UV
+        run: pip install uv
+      
+      - name: Sync dependencies
+        run: uv sync
+      
+      - name: Download spaCy model
+        run: uv run python -m spacy download en_core_web_sm
+      
+      - name: Build artifacts
+        run: uv run ibidav-build-artifacts
+      
+      - name: Run search quality tests
+        run: uv run scripts/test_search_quality.py
+      
+      - name: Check data quality
+        run: uv run scripts/validate_data_quality.py
+      
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: search-quality-results
+          path: .cache/search_baseline.json

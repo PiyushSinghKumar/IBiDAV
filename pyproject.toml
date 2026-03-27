@@ -1,0 +1,55 @@
+[project]
+name = "ibidav"
+version = "0.1.0"
+description = "FastAPI application for biomedical article search, browsing, and topic exploration."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi==0.115.12",
+  "jinja2==3.1.6",
+  "nltk==3.7",
+  "pandas>=2.2.3,<3",
+  "pillow>=11.2.1",
+  "rank-bm25==0.2.2",
+  "uvicorn[standard]==0.34.0",
+  "spacy>=3.7",
+  "numpy>=1.24",
+  "scikit-learn>=1.5",
+]
+
+[project.scripts]
+ibidav-build-artifacts = "ibidav.build_artifacts:main"
+train-label-classifier = "scripts.train_label_classifier:train_label_classifier"
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28.1",
+]
+
+ml = [
+  "torch>=2.7",
+  "sentence-transformers>=3.0",
+]
+
+topics = [
+  "bertopic>=0.15",
+]
+
+[tool.uv]
+package = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ibidav"]
+
+[tool.hatch.build]
+include = [
+  "ibidav/**/*.py",
+  "ibidav/**/*.html",
+  "ibidav/**/*.css",
+  "ibidav/**/*.js",
+  "main.py",
+]
